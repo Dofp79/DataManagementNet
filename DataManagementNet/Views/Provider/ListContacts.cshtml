@@ -1,0 +1,70 @@
+﻿@model List<RCModel>
+
+@{
+    ViewData["Title"] = "ListContacts";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    /* Custom CSS to style the table */
+    .custom-table {
+        background-color: cornflowerblue; /* Set the background color to green */
+        color: white; /* Set the font color to white */
+        font-weight: bold; /* Set the font weight to bold */
+    }
+</style>
+
+<h1>ListContacts</h1>
+
+<div class="card">
+    <div class="card-header">
+        List of registered contacts
+    </div>
+    <div class="card-body">
+        <!-- Link to create a new object -->
+        <a asp-action="Registration" asp-controller="Provider" class="btn btn-warning"><i class="bi bi-plus-circle"></i> Make a new registration</a>
+        <hr />
+
+        <!-- Center the table within a div with the "table-responsive" class to prevent horizontal overflow -->
+        <div class="table-responsive custom-table">
+            <!-- Table for displaying the contact data -->
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>CID</th>
+                        <th>Contacts Name</th>
+                        <th>Phone</th>                 
+                        <th>E-Mail</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Razor: loop to iterate through each element in the model list ( to make it easier to write server-side code in the HTML files and improve readability.) -->
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <!-- Displaying the parameters of the RCModel class in the corresponding columns -->
+                            <td>@item.CID</td>
+                            <td>@item.ContactsName</td>
+                            <td>@item.Phone</td>
+                            <td>
+                                <!-- Links to edit and delete the object data -->
+                                <a asp-action="EditContact" asp-controller="Provider" class="btn btn-warning btn-sm" asp-route-CID="@item.CID">Contact Edit</a>
+                                <a asp-action="DeleteContat" asp-controller="Provider" class="btn btn-danger btn-sm" asp-route-CID="@item.CID">Delete contact</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!--btn-primary: Blue color (default color for primary actions).-->
+<!--btn-secondary: Gray color (for secondary actions).-->
+<!--btn-success: Green color (for successful actions).-->
+<!--btn-danger: Red color (for dangerous or critical actions).-->
+<!--btn-warning: Yellow color (for warning or cautionary actions).-->
+<!--btn-info: Light blue color (for informational actions).-->
+<!--btn-light: Light gray color (for light-colored actions).-->
+<!--btn-dark: Dark gray color (for dark-colored actions).-->
+<!--btn-link: A link-styled button with no background color.-->

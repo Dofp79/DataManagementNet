@@ -1,0 +1,50 @@
+﻿@model RCModel
+@{
+    ViewData["Title"] = "EditContact";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Das "container"-Element von Bootstrap definiert einen Container, der das gesamte Formular einschließt. -->
+<div class="container">
+    <!-- Die "row"-Klasse von Bootstrap erstellt eine Zeile, um das Formular horizontal zu organisieren. -->
+    <div class="row">
+        <!-- Die "col-md-6 offset-md-3"-Klasse erstellt ein Formular mit einer Breite von 6 Spalten für mittelgroße Geräte (Desktops und Laptops) und zentriert es mit einem Offset von 3 Spalten. -->
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-header">
+                     Edit contact
+                </div>
+                <div class="card-body">
+
+                    <!-- Das HTML-Formular wird mit asp-action und asp-controller auf die entsprechenden Aktionen und Controller verwiesen. Die "post"-Methode wird verwendet, um das Formular zu übermitteln. -->
+                    <form asp-action="EditContact" asp-controller="Provider" method="post">
+                        <!-- Das "readonly" Attribut sorgt dafür, dass der Wert des "CID" beim Absenden des Formulars beibehalten wird, aber der Benutzer es nicht bearbeiten kann. -->
+                        <input asp-for="CID" type="hidden" class="form-control">
+                        <!-- Die "form-group"-Klasse von Bootstrap definiert eine Gruppe von Elementen innerhalb des Formulars, um das Layout zu organisieren. -->
+                        <div class="form-group">
+                            <label for="ContactsName"> Contact Name</label>
+                            <!-- Die "asp-for"-Attribute binden das Textfeld an die entsprechende Eigenschaft von "ObjectModel". Die "form-control"-Klasse definiert das Design des Textfelds. -->
+                            <input asp-for="ContactsName" type="text" class="form-control">
+                            <!-- Das "asp-validation-for"-Attribut zeigt die Validierungsfehlermeldung für das Textfeld an, wenn es nicht den Validierungsregeln in "ObjectModel" entspricht. -->
+                            <span asp-validation-for="ContactsName" class="text-danger"></span>
+                        </div>                      
+                        <div class="form-group">
+                            <label for="Phone">Phone</label>
+                            <input asp-for="Phone" type="text" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="Email">E-Mail</label>
+                            <input asp-for="Email" type="text" class="form-control">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <!-- Die Schaltflächen zum Speichern und Zurück zur Liste verwenden die "btn"- und "btn-primary"/"btn-warning"-Klassen von Bootstrap für das Design. -->
+                        <button type="submit" class="btn btn-primary">Saving</button>
+                        <a asp-action="ListContacts" asp-controller="Provider" class="btn btn-warning">Return to the contact list</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

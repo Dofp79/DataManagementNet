@@ -1,0 +1,32 @@
+﻿@model RCModel
+@{
+    ViewData["Title"] = "DeleteContat";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <!-- Card header -->
+                <div class="card-header">
+                    Remove contact <!-- Object remove -->
+                </div>
+                <!-- Card body -->
+                <div class="card-body">
+                    <!-- Form to delete the contact -->
+                    <form asp-action="DeleteContat" asp-controller="Provider" method="post">
+                        <!-- Hidden input for the contact ID -->
+                        <input asp-for="CID" type="hidden" class="form-control">
+                        <!-- Delete button -->
+                        <button type="submit" class="btn btn-danger">entfernen</button> <!-- remove -->
+                        <!-- Display message asking if the user wants to remove the contact -->
+                        Do you want to remove the contact @Html.DisplayFor(m => m.ContactsName) ?
+                    </form> <!-- Close the form -->
+                    <!-- Link to go back to the list of contacts -->
+                    <a asp-action="ListContacts" asp-controller="Provider" class="btn btn-warning">Return to the contact list</a> <!-- Back to the list -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
