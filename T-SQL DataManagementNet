@@ -1,87 +1,102 @@
-Creating databases using SQL Server Management Studio 2019 
+/*
+    ---------------------------------------------------------------
+    Script: Contact Management Database Setup
+    Description: 
+        This SQL script creates a database named 'DataManagementNet' 
+        and defines a table named 'RegisteredContacts' for storing 
+        contact information including name, phone number, and email address.
+        
+        It also creates a set of stored procedures to:
+        - Show the entire contact list
+        - Register a new contact
+        - Retrieve contact details by ID
+        - Edit an existing contact
+        - Delete a contact by ID
 
+    Target Platform: SQL Server Management Studio 2019
+    Author: [Your Name]
+    ---------------------------------------------------------------
+*/
 
+-- Create the database
 CREATE DATABASE DataManagementNet;
 
-
+-- Set the database context to DataManagementNet
 USE DataManagementNet;
 
-
+-- Create the RegisteredContacts table
 CREATE TABLE RegisteredContacts(
     CID int identity PRIMARY KEY, -- Auto-incrementing identity column and primary key
-    ContactsName varchar(50) UNIQUE, -- Name of the contact (enforces uniqueness)
-    Phone varchar(50), -- Phone number of the contact
-    Email varchar(50) -- Email address of the contact
+    ContactsName varchar(50) UNIQUE, -- Contact's name, must be unique
+    Phone varchar(50), -- Contact's phone number
+    Email varchar(50) -- Contact's email address
 );
 
-
-USE [DataManagementNet] -- Set the current database context to "DataManagementNet"
+-- Set the context again (good practice when running scripts)
+USE [DataManagementNet]
 GO
--- Define the stored procedure named sp_ShowContactList
+
+-- Stored Procedure: Retrieve all contacts
 CREATE PROCEDURE sp_ShowContactList
--- This procedure retrieves all records from the RegisteredContacts table
 AS
-BEGIN -- Start of the procedure's code block
-	SELECT * FROM RegisteredContacts -- SELECT all columns (*) from the RegisteredContacts table
-END; -- End of the procedure's code block
+BEGIN
+    SELECT * FROM RegisteredContacts; -- Retrieve all contact records
+END;
 
-
-USE [DataManagementNet]-- Set the current database context to "DataManagementNet"
+-- Set context before creating next procedure
+USE [DataManagementNet]
 GO
--- Define the stored procedure named sp_Registration
+
+-- Stored Procedure: Register a new contact
 CREATE PROCEDURE sp_Registration
--- This procedure stores the data supplied in the RegisteredContacts table.
-    @ContactsName varchar(50), -- Parameter: Accepts a varchar value with a maximum length of 50 characters and represents the name of the contact.
-    @Phone varchar(50), -- Parameter: Accepts a varchar value with a maximum length of 50 characters and represents the phone number of the contact.
-    @Email varchar(50) -- Parameter: Accepts a varchar value with a maximum length of 50 characters and represents the email address of the contact.
+    @ContactsName varchar(50),
+    @Phone varchar(50),
+    @Email varchar(50)
 AS
-BEGIN -- Start of the stored procedure's code block
-    -- Perform an INSERT operation into the RegisteredContacts table.
+BEGIN
     INSERT INTO RegisteredContacts (ContactsName, Phone, Email)
-    VALUES (@ContactsName, @Phone, @Email); -- Insert the parameter values into the respective columns in the RegisteredContacts table.
-END; -- End of the stored procedure's code block
+    VALUES (@ContactsName, @Phone, @Email); -- Insert new contact into table
+END;
 
-
-USE [DataManagementNet] -- Set the current database context to "DataManagementNet"
+-- Set context before creating next procedure
+USE [DataManagementNet]
 GO
--- Define the stored procedure named sp_GetContact
+
+-- Stored Procedure: Get contact details by ID
 CREATE PROCEDURE sp_GetContact(
--- This procedure retrieves all records from the RegisteredContacts table where the CID (Contact ID) matches the provided @CID parameter.
-    @CID int -- Parameter: Accepts an integer value representing the Contact ID to be retrieved.
+    @CID int
 )
 AS
-BEGIN -- Start of the stored procedure's code block
-    -- Retrieve all records from the RegisteredContacts table where CID matches the provided @CID parameter.
-    SELECT * FROM RegisteredContacts WHERE CID = @CID;
-END; -- End of the stored procedure's code block
+BEGIN
+    SELECT * FROM RegisteredContacts WHERE CID = @CID; -- Retrieve specific contact by ID
+END;
 
-
-USE [DataManagementNet] -- Set the current database context to "DataManagementNet"
+-- Set context before creating next procedure
+USE [DataManagementNet]
 GO
--- Define the stored procedure named sp_DeleteContat
-CREATE PROCEDURE sp_DeleteContat(
--- This procedure deletes records from the RegisteredContacts table where the CID (Contact ID) matches the provided @CID parameter.
-    @CID int -- Parameter: Accepts an integer value representing the Contact ID to be deleted.
+
+-- Stored Procedure: Delete a contact by ID
+CREATE PROCEDURE sp_DeleteContat( -- Note: Typo in procedure name ("Contat" instead of "Contact")
+    @CID int
 )
 AS
-BEGIN -- Start of the stored procedure's code block
-    -- Delete records from the RegisteredContacts table where CID matches the provided @CID parameter.
-    DELETE FROM RegisteredContacts WHERE CID = @CID;
-END; -- End of the stored procedure's code block
+BEGIN
+    DELETE FROM RegisteredContacts WHERE CID = @CID; -- Delete contact by ID
+END;
 
-
-USE [DataManagementNet] -- Set the current database context to "DataManagementNet"
+-- Set context before creating next procedure
+USE [DataManagementNet]
 GO
--- Define the stored procedure named sp_EditContact
+
+-- Stored Procedure: Edit an existing contact
 CREATE PROCEDURE sp_EditContact
--- This procedure updates the existing records in the RegisteredContacts table with the new values provided in the parameters.
-    @CID int, --Parameter: Accepts an integer value representing the Contact ID to be retrieved.
-    @ContactsName varchar(50), -- Parameter: Accepts a varchar value with a maximum length of 50 characters and represents the updated name of the contact.
-    @Phone varchar(50), -- Parameter: Accepts a varchar value with a maximum length of 50 characters and represents the updated phone number of the contact.
-    @Email varchar(50) -- Parameter: Accepts a varchar value with a maximum length of 50 characters and represents the updated email address of the contact.
+    @CID int,
+    @ContactsName varchar(50),
+    @Phone varchar(50),
+    @Email varchar(50)
 AS
-BEGIN -- Start of the stored procedure's code block
-    -- Update the RegisteredContacts table with the new values provided in the parameters.
-    UPDATE RegisteredContacts SET ContactsName = @ContactsName, Phone = @Phone, Email = @Email WHERE CID = @CID
-END; -- End of the stored procedure's code block
-
+BEGIN
+    UPDATE RegisteredContacts 
+    SET ContactsName = @ContactsName, Phone = @Phone, Email = @Email 
+    WHERE CID = @CID; -- Update contact info based on ID
+END;
